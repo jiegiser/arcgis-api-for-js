@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载本地服务</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <style>
+        #mapDiv{
+            height:800px;
+            width:auto;
+        }
+    </style>
+    <script>
+        require(["esri/map","dojo/domReady!","esri/layers/ArcGISDynamicMapServiceLayer"],function (Map,ArcGISDynamicMapServiceLayer)
+        {
+            var map=new Map("mapDiv");
+            var layer=new ArcGISDynamicMapServiceLayer("http://localhost:6080/arcgis/rest/services/nongda/农大/MapServer");
+            layer.setVisibleLayers([1,2]);
+            map.addLayer(layer);
+        })
+    </script>
+</head>
+<body class="claro">
+<div id="mapDiv"></div>
+</body>
+</html>

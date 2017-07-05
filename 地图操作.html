@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图操作</title>
+    <style>
+        #mapDiv{
+
+            height: 650px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="js/css/bootstrap.css">
+    <link rel="stylesheet" href="js/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css" />
+
+    <script>
+        require(["esri/map","esri/layers/ArcGISImageServiceLayer","esri/layers/ImageServiceParameters","dojo/parser","dojo/domReady!"],
+            function (Map,ArcGISImageServiceLayer,ImageServiceParameters,parser) {
+                parser.parse();
+                var map=new Map("mapDiv",{
+                    center:[-97.40,43.64]//设置显示位置
+                });
+                var params=new ImageServiceParameters();//实例化一个影像服务参数
+                params.noData=0;
+                params.format="jpgpng";//设置影像格式
+                var imageServiceLayer=new ArcGISImageServiceLayer("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Toronto/ImageServer",{
+                    imageServiceParameters:params
+                });
+                map.addLayer(imageServiceLayer);//将影像添加到地图容器中
+            });
+    </script>
+    <link rel="stylesheet" href="css/bootstrap-vertical-menu.css">
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script type="text/javascript">
+        var map, navToolbar;
+        var navOption; // 当前选择的操作
+        require(["dojo/parser", "esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/toolbars/navigation",
+                "dojo/query", 'dojo/_base/fx', "dojo/fx/easing", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/domReady!"],
+            function (parser, Map, ArcGISTiledMapServiceLayer, Navigation, query, fx, easing) {
+                parser.parse();
+
+                map = new Map("mapDiv", {
+                    logo: false,
+                    sliderStyle: "large"
+                });
+                var agoServiceURL = "http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer";
+                var agoLayer = new ArcGISTiledMapServiceLayer(agoServiceURL);
+                map.addLayer(agoLayer);
+
+                map.on('load', setupNavBar);
+
+                function setupNavBar() {
+                    navToolbar = new Navigation(map);
+
+                    query(".navItem img").onmouseover(function (evt) {
+                        fx.anim(evt.target.parentNode, {
+                            backgroundColor: '#CCCCCC'
+                        }, 200, easing.bounceOut);
+                    }).onmouseout(function (evt) {
+                        if (evt.target.parentNode.id != navOption) {
+                            fx.anim(evt.target.parentNode, {
+                                backgroundColor: '#FFFFFF'
+                            });
+                        }
+                        else {
+                            fx.anim(evt.target.parentNode, {
+                                backgroundColor: '#DADADA'
+                            });
+                        }
+                    }).onclick(function (evt) {
+
+                        fx.anim(evt.target.parentNode, {
+                            backgroundColor: '#999999'
+                        }, 200, easing.linear, function () {
+                            dojo.anim(evt.target.parentNode, {
+                                backgroundColor: '#CCCCCC'
+                            }, 0);
+                        });
+                        navEvent(evt.target.parentNode.id);
+                    });
+
+                    // 将漫游设置为默认操作
+                    navEvent('deactivate');
+                }
+
+                function navEvent(id) {
+                    switch (id) {
+                        case 'pan':
+                            map.enablePan();
+                            navToolbar.activate(Navigation.PAN);
+
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'zoomprev':
+                            navToolbar.zoomToPrevExtent();
+                            break;
+                        case 'zoomnext':
+                            navToolbar.zoomToNextExtent();
+                            break;
+                        case 'extent':
+                            navToolbar.zoomToFullExtent();
+                            break;
+                        case 'zoomin':
+                            navToolbar.activate(Navigation.ZOOM_IN);
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'zoomout':
+                            navToolbar.activate(Navigation.ZOOM_OUT);
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'deactivate':
+                            navToolbar.deactivate();
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                    }
+                }
+            });
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">主页</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">功能1<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">功能2</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">工具箱<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">放大</a></li>
+                        <li><a href="#">缩小</a></li>
+                        <li><a href="#">移动</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">面积测量</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">长度测量</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登陆</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="row">
+<nav class="navbar navbar-vertical-left" style="top:55px; border-radius: 20px;background-color: #c3c8cd;">
+    <ul class="nav navbar-nav">
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg fa-home"></i>
+                <span>Menu 1</span>
+            </a>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg glyphicon glyphicon-zoom-out "></i>
+                <span>Menu 2</span>
+            </a>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg glyphicon glyphicon-zoom-in"></i>
+                <span>Menu 3</span>
+            </a>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg glyphicon glyphicon-globe"></i>
+                <span>Menu 4</span>
+            </a>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg glyphicon glyphicon-hand-up"></i>
+                <span>Menu 5</span>
+            </a>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-fw fa-lg glyphicon glyphicon-send"></i>
+                <span>Menu 6</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+    <div class="col-md-8">
+    <div  class="panel panel-default">
+        <div class="panel-heading">地图显示</div>
+        <div class="panel-body" id="mapDiv">
+
+        </div>
+    </div>
+    </div>
+    <div class="col-md-4 ">
+        <div class="left">
+            <div class="panel panel-default">
+                <div class="panel-heading">查询结果</div>
+                <div class="panel-body">
+                    <div id="r-result">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="js/js/bootstrap.js"></script>
+</body>
+</html>

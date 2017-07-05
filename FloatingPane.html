@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style>
+        .box {
+            margin-top: 5px;
+            color: #292929;
+            border: 1px solid #9F9F9F;
+            background-color: #EFEFEF;
+            padding-left: 10px;
+            padding-right: 20px;
+            margin-left: 10px;
+            margin-bottom: 1em;
+            border-radius: 10px;
+            -o-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            box-shadow: 8px 8px 16px #adadad;
+            -webkit-box-shadow: 8px 8px 16px #adadad;
+            -moz-box-shadow: 8px 8px 16px #adadad;
+            -o-box-shadow: 8px 8px 16px #adadad;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_api/library/3.17/3.17/dojox/layout/resources/FloatingPane.css" />
+     <script>
+         dojoConfig = {
+             isDebug: true,
+             async: true
+         };
+    </script>
+        <script src="http://localhost/arcgis_js_api/library/3.17/3.17/"></script>
+    <script>
+        require(["dojo/parser", "dijit/layout/ContentPane", "dijit/form/Button", "dojo/domReady!"], function (parser) {
+            parser.parse();
+        });
+
+        function makeAboutBox() {
+            require(["dojo/request", "dojo/_base/window", "dojo/dom-style", "dojox/layout/FloatingPane"], function (request, win, style, FloatingPane) {
+                var floaterDiv = document.createElement("div");
+                win.body().appendChild(floaterDiv);
+                floaterDiv.appendChild(document.createElement("br"));
+                var textarea = document.createElement("div");
+                textarea.innerHTML = "加载...";
+
+                floaterDiv.appendChild(textarea);
+                var tmp = new FloatingPane({
+                    title: "<b>关于本应用程序</b>",
+                    id: "aboutBox",
+                    closeable: true,//是否可以关闭
+                    resizable: true,
+                    dockable: false,//可否停靠
+                    resizeAxis: 'xy'
+                }, floaterDiv);
+                tmp.startup();//加这代码的原因与小部件创建完成以后的解析有关
+
+                tmp.resize({
+                    w: 350,
+                    h: 200
+                });//调用面板的resize方法调整高度与宽度
+                //利用dojo/dom-style功能模块的set函数设置样式
+                //set函数包括3个参数，一个节点，一个样式名和为该样式指定的一个值
+                
+                style.set(tmp.domNode, "top", "100px");
+                style.set(tmp.domNode, "left", "100px");
+                style.set(tmp.domNode, "z-index", "500");
+
+                tmp.show();
+                //通过dojo/request获取其中的内容，并放置在textarea元素中
+                request("about.html").then(function (response) {
+                    textarea.innerHTML = response;
+                },//所有dojo/request方法都返回一个promise对象，这个promise对象最终会提供响应数据
+                //如果在发起请求时指定了某个响应内容解析器，那么这个promise对象就会提供这个内容解析器的解析结果
+                //否则将会返回响应的body部分文本
+                    function (response) {
+                        alert("出错，原因是" + response);
+                        textarea.innerHTML = '不能找到指定的HTML ';
+                    });
+
+                tmp.bringToTop();//调用浮动面板的bring To Top方法，将该文件的内容显示在textarea元素中，若出错了则使用alert显示错误信息
+
+            });
+        }
+    </script>
+</head>
+<body class="tundra">
+    <div data-dojo-type="dijit/layout/ContentPane" style="width:100px;height:200px;float:left">
+        <div data-dojo-type="dijit/form/Button">
+            相关信息
+            <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+                makeAboutBox();
+            </script>
+        </div>
+    </div>
+</body>
+</html>

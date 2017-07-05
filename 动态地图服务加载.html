@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态地图服务加载</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css" />
+    <style>
+        #mapDiv{
+            height: 800px;
+            width: auto;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+        require(["esri/map","dojo/domReady!","esri/layers/ArcGISDynamicMapServiceLayer"],
+            function (Map,ArcGISDynamicMapServiceLayer) {
+            var map=new Map("mapDiv",{
+                basemap:"topo",
+                center:[-122.45,37.75],
+                zoom:5
+            });
+            var layer=new ArcGISDynamicMapServiceLayer("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographic/ESRI_Population_World/MapServer",{
+                "opacity":0.5});
+            map.addLayer(layer);
+
+        })
+    </script>
+</head>
+<body>
+<div id="mapDiv"></div>
+</body>
+</html>

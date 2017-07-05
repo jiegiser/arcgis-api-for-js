@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Title</title>
+    <style type="text/css">
+        html,body,#mapDiv{
+            padding:0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script><link rel="stylesheet" href="http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css"/>
+    <script type="text/javascript">
+        require(["esri/map","dojo/domReady!"],function (Map) {
+            var map=new Map("mapDiv",{
+                center: [-56.049, 38.485],
+                zoom: 3,
+                basemap: "streets",
+                sliderStyle:"small"
+            });
+        });
+    </script>
+</head>
+<body class="claro">
+<div id="mapDiv"></div>
+</body>
+</html>

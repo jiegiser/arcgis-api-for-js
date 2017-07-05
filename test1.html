@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>第一个例子</title>
+    <style>
+       #mapDiv {
+       width:800px;
+        height:500px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <script type="text/javascript">
+        require(["esri/map", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/geometry","dojo/domReady!"], function (Map, ArcGISDynamicMapServiceLayer,Polyline) {
+            // 以下是创建地图与加入底图的代码
+            var map = new Map("mapDiv",
+                {
+                    logo: false,//设置logo是否可见
+
+            });
+            var agoServiceURL = "http://localhost:6080/arcgis/rest/services/nongda/农大/MapServer";//发布的动态地图的URL
+            var agoLayer = new ArcGISDynamicMapServiceLayer("http://localhost:6080/arcgis/rest/services/nongda/农大/MapServer");
+            agoLayer.setVisibleLayers([1,2]);
+            map.addLayer(agoLayer);
+            var polyLine=new Polyline();
+            var path=[new Point(-123.12,45.7),new Point(-145.13,65.56)];
+            polyLine.addPath(path);
+            var lineSymbol=new SimpleLineSymbol().setWidth(5);
+            var polylineGraphic=new Graphic(polyLine,lineSymbol);
+            map.graphics.add(polylineGraphic);
+        });
+
+        
+        console.log("njnjnjnj");
+    </script>
+</head>
+<body class="tundra">
+<div id="mapDiv"></div>
+</body>
+</html>

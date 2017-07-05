@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        body.large.chapter {
+            font-size: 1.5px;
+            background-color:aqua;
+        }
+
+        body.narrow.chapter {
+            width: 250px;
+            background-color:blue;
+        }
+    </style>
+    <script src="js/jquery-3.2.1.js"></script>
+<!--    <script src="js/jquery-1.7.1.min.js"></script>-->
+    <script>
+        $(document).ready(function () {
+            $('#switcher-large').on('click', function () {
+                $('body').addClass('large');
+                $('body').removeClass('narrow');
+            });
+            $('#switcher-default').on('click', function () {
+                $('body').removeClass('large');
+                $('body').removeClass('narrow');
+            });
+            $('#switcher-narrow').on('click', function () {
+                $('body').addClass('narrow');
+                $('body').removeClass('large');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="switcher" class="switcher">
+        <h3>Style Switcher</h3>
+        <button id="switcher-default">Default</button>
+        <button id="switcher-narrow">
+            Narrow Column
+        </button>
+        <button id="switcher-large">
+            Large Print
+        </button>
+    </div>
+    <h1>我的第一个jQuery脚本</h1>
+    <p><b>in po biongk zheilmsn, ksdkfnsdk</b></p>
+    <h1>sdfsdfsdf</h1>
+    <br />
+    <p>
+        sfasfasf sdfdsfsdf sdf sdf sd f sdfszcx xzmcz xc zxcz xczx c zc z  c zx c zc z cz c  zxc a f 
+         cxzxc  zc zxcz xc zxc zxcz xc zxc zxca sd asd asdas kasjdo askdas asdasd  asd asjdoj asjd as dasd asd 
+        asd iasd asd asd asoijas asdkjjasd as oadasd askjdasjdasjkdoasjdasdoa sdoajsdo asdo jiaso djoasjdo sa 
+    </p>
+    <br />
+    <p>
+        dsfsdf sdf sd f sdf sd f sd f sd f sd f sd f sd fasdklasd as d asdkasodj oas jdasdajsd jas odijaosjdoasjidoaijsdo dsjiodjfosdjfo sjfo
+        dkjdskjf sdfsd fs
+    </p>
+</body>
+</html>

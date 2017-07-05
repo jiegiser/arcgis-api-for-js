@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <script src="http://localhost/arcgis_js_api/library/3.17/3.17/"></script>
+    <script type="text/javascript">
+        require(["dojo/_base/declare", "dijit/_Widget", "dojo/dom-construct"],
+            function (declare, _Widget, domConstruct) {
+                declare("Counter", _Widget, {
+                    buildRendering: function () {
+                        //创建该小部件的DOM树
+                        this.domNode = domConstruct.create("button", {
+                            innerHTML: this.i
+                        });
+                    },
+                    //调用postCreate函数，此时DOM树已经创建好，通常用来事件的连接
+                    postCreate: function () {
+                        //用户每单击一次按钮，计数器增加1
+                        this.connect(this.domNode, "onclick", "increment");
+                    },//通过小部件的connect方法手动连接onclick事件及其处理函数increment，
+ //此链接都可以由小部件在_connect数组内部跟踪，所有连接在销毁时将会自动断开，这样小部件与DOm节点间的相互引用就被打破了，
+                    increment: function () {
+                        this.domNode.innerHTML = ++this.i;
+                    }
+                });
+            });
+        require(["dojo/parser", "dojo/domReady!"], function (parser) {
+            parser.parse();
+        })
+    </script>
+</head>
+<body class="tundra">
+<span data-dojo-type="Counter"></span>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+
+    <script src="http://localhost/arcgis_js_api/library/3.17/3.17/"></script>
+    <script type="text/javascript">
+        require(["dojo/_base/declare", "dijit/_Widget", "dojo/dom-construct"],
+            function (declare, _Widget, domConstruct) {
+                declare("MyFirstWidget", _Widget, {
+                    buildRendering: function () {
+                        //创建该小部件，buildRaster函数用于创建一个DOM树并将其内容渲染到页面上
+                        this.domNode = domConstruct.create("button", { innerHTML: "提交" });
+                    }
+                });
+            });
+        require(["dojo/parser", "dojo/domReady!"], function (parser) {
+            parser.parse();
+        })
+    </script>
+</head>
+<body class="tundra">
+    <span data-dojo-type="MyFirstWidget">最简单的行为性小部件
+    </span>
+</body>
+</html>

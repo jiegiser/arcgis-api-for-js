@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>页面布局</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_api/library/3.17/3.17/dojox/layout/resources/FloatingPane.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css" />
+    <style>
+    html,
+    body,
+    #main {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    </style>
+    <script type="text/javascript">
+        dojoConfig = {
+            isDebug: true,
+            async: true
+        };
+    </script>
+    <script src="http://localhost/arcgis_js_api/library/3.17/3.17/"></script>
+    <script type="text/javascript">
+        require(["dojo/parser", "esri/map", "esri/layers/ArcGISDynamicMapServiceLayer",
+                "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+                "dijit/layout/AccordionContainer", "dojo/domReady!"
+        ],
+            function (parser, Map, ArcGISDynamicMapServiceLayer) {
+                parser.parse();
+                var map = new Map("mapDiv");
+                var agoLayer = new ArcGISDynamicMapServiceLayer("http://localhost:6080/arcgis/rest/services/nongda/农大/MapServer");
+                map.addLayer(agoLayer);
+            });
+    </script>
+</head>
+
+<body class="tundra">
+    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false" id="main">
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" style="background-color:#7fb9e1; height: 10%;">
+            放置单位或公司标志、本应用系统名称等
+        </div>
+        <!--通过设置ContentPane的splitter=“true”,使得用户可以进行手动拖动改变区域尺寸的边框-->
+        <!--如果想让用户的拖动有个限度，可以通过指定minSize或maxSize的属性值来实现
+            ，尺寸限制了指定区域的长宽，其最小值、最大值分别为0px，和Infinity表示没有限制,
+            BorderContainer的liveSizing属性设定了面板在拖动过程是否需要重绘，设为true可以帮助
+            用户即时看到拖动的效果如果ContentPane里面有大量的HTML的话，整个页面会变得非常慢-->
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left', splitter:'true'" style="background-color: #162d97; width: 200px;">
+            一般为菜单
+        </div>
+        <!--此外BorderContainer可以在浏览器的cookie中保存拖动后的位置，只需要将persist属性设定为true就可以实现，这样用户不必每次都更改边框的长度-->
+        <div id="mapDiv" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="background-color: #f5ffbf; padding: 10px;">
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right', splitter:'true'" style="background-color: #f5ffbf; width: 200px;">
+            <!--堆叠容器-->
+            <div id="accordionContainer" data-dojo-type="dijit/layout/AccordionContainer" style="padding: 0px; overflow: hidden; z-index: 29;">
+                <div data-dojo-type="dijit/layout/ContentPane" title="查询" style="overflow: hidden;">
+                    <div id="findServicesDiv">
+                    </div>
+                </div>
+                <div id="identifyResultsPane" data-dojo-type="dijit/layout/ContentPane" style="overflow: hidden;" title="查询结果">
+                    <div id="resultsDiv">
+                    </div>
+                    <br>
+                </div>
+                <div id="parcelResultsPane" data-dojo-type="dijit/layout/ContentPane" title="缓冲区分析">
+                </div>
+                <div data-dojo-type="dijit/layout/ContentPane" style="width: 100%" title="图层控制">
+                    <br>
+                    <div id="layerConfigDiv">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom', splitter:'true'" style="background-color: #64b0e3; height: 50px;">
+            版权信息等
+        </div>
+    </div>
+</body>
+
+</html>
+

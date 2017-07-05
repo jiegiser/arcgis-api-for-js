@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载百度地图</title>
+    <style>
+        #mapDiv{
+            margin: 0px;
+            height:700px;
+            width: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link href="js/jquery-3.2.1.js">
+    <link href="js/js/bootstrap.min.js">
+    <script>
+        var dojoConfig = {
+            async: true,
+            packages: [{
+                "name": "bism",
+                "location": location.pathname.replace(/\/[^/]+$/, "") + "/js/bism"
+            }]
+        };
+    </script>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+        require(["esri/map","bism/BaiduLayer","dojo/domReady!"],function (Map,BaiduLayer) {
+           var map=new Map("mapDiv",{
+             logo:false
+           });
+           var layer=new BaiduLayer();
+           map.addLayer(layer);
+        });
+    </script>
+</head>
+<body class="tundra">
+<div class="footer" id="mapDiv"></div>
+</body>
+</html>

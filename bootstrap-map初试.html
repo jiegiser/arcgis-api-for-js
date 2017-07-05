@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- Step 1. Add CSS for the mapping components -->
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.13/esri/css/esri.css">
+    <link rel="stylesheet" type="text/css" href="http://esri.github.io/bootstrap-map-js/src/css/bootstrapmap.css">
+    <style type="text/css">
+        #mapDiv {
+            min-height: 100px;
+            max-height: 1000px;
+        }
+    </style>
+
+    <!-- HTML5 IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+    <script src="../assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<!-- Step 2. Add HTML to define the layout of the page and the map -->
+<div class="container">
+    <div id="mapDiv"></div>
+</div>
+
+<!-- Step 3. Add JS to load the responsive map -->
+<script>
+    var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+    var dojoConfig = {
+        packages: [{
+            name: "application",
+            location: package_path + '/js'
+        }, {
+            name: "bootstrap",
+            location: "//rawgit.com/xsokev/Dojo-Bootstrap/master"
+        }]
+    };
+</script>
+<script src="//js.arcgis.com/3.13compact"></script>
+<script>
+    require(["esri/map", "application/bootstrapmap", "dojo/domReady!"],
+        function(Map, BootstrapMap) {
+            // Get a reference to the ArcGIS Map class
+            var map = BootstrapMap.create("mapDiv",{
+                basemap:"national-geographic",
+                center:[-122.45,37.77],
+                zoom:12
+            });
+        });
+</script>
+
+</body>
+</html>
+         

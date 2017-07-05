@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="js/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css" />
+    <style>
+        #mapDiv{
+            width: auto;
+            height: 800px;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+        require(["esri/map","esri/layers/ArcGISImageServiceLayer","esri/layers/ImageServiceParameters","dojo/parser","dojo/domReady!"],
+        function (Map,ArcGISImageServiceLayer,ImageServiceParameters,parser) {
+           parser.parse();
+           var map=new Map("mapDiv",{
+               center:[-97.40,43.64]//设置显示位置
+           });
+           var params=new ImageServiceParameters();//实例化一个影像服务参数
+           params.noData=0;
+           params.format="jpgpng";//设置影像格式
+           var imageServiceLayer=new ArcGISImageServiceLayer("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Toronto/ImageServer",{
+               imageServiceParameters:params
+           });
+           map.addLayer(imageServiceLayer);//将影像添加到地图容器中
+        });
+    </script>
+</head>
+<body>
+<div id="mapDiv">
+</div>
+</body>
+</html>

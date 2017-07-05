@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载地图</title>
+
+</head>
+<link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css" />
+<link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css" />
+<style>
+    html,body,#mapDiv{
+        height:100%;
+        width:100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<script src="http://js.arcgis.com/3.9/"></script>
+<script type="javascript">
+  require(["esri/map","dojo/domReady!"],function (Map) {
+      var map=new Map("mapDiv");
+      var agoLayer = new ArcGISDynamicMapServiceLayer("http://localhost:6080/arcgis/rest/services/nongda/农大/MapServer");
+      map.addLayer(agoLayer);
+
+  });
+</script>
+<body>
+<div id="mapDiv"></div>
+</body>
+</html>

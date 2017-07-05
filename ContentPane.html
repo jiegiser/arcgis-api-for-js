@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ContentPane</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    dojoConfig = { isDebug: true, async: true };
+</script>
+    <script src="http://localhost/arcgis_js_api/library/3.17/3.17"></script>
+    <script type="text/javascript">
+        require(["dojo/parser", "dijit/layout/ContentPane", "dijit/form/Button", "dojo/domReady!"],
+            function (parser) {
+            parser.parse();//调用parse函数用于解析小部件标签属性
+
+        });//如果使用按钮小部件，需要使用小部件的位置，写入小部件标签属性。
+    </script>
+    <div data-dojo-type="dijit/layout/ContentPane" style="width:100px;height:200px;float:left">
+        <div data-dojo-type="dijit/form/Button">相关信息</div>
+    </div>
+</body>
+</html>

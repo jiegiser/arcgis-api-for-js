@@ -1,0 +1,53 @@
+﻿#nav {
+background-color:#eee;
+height:40px;
+width:600px;
+margin:0 auto;
+/*position: relative;*/
+}
+ul{
+list-style:none;
+/*position:absolute;
+left:80px;*/
+}
+    ul li {
+    float:left;
+    line-height:40px;/*垂直居中*/
+    text-align:center;/*水平居中*/
+    position:relative;
+    }
+* {
+margin:0px;
+padding:0px;
+}
+/*去掉a标签下的下划线*/
+a {
+text-decoration:none;
+color:#000;
+display:block;
+/*padding:0 10px;*/
+width:90px;
+}
+    a:hover {
+    color:#FFF;
+    background-color:#666;
+    }
+ul li ul li {
+float:none;
+background-color:#eee;
+margin-top:2px;
+}
+ul li ul {
+    width:90px;
+position:absolute;
+left:0px;
+top:40px;
+display:none;
+}
+    ul li ul li a:hover {
+    background-color:#06F;
+
+    }
+ul li:hover ul {
+display:block;
+}

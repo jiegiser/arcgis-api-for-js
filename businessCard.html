@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+      <style type="text/css">
+    	body, html { margin: 0; height: 100%; width: 100%; }
+    	.businessCard { border: 3px inset gray; margin: 1em; } 
+    	.employeeName { color: blue; } 
+    	.specialEmployeeName { color: red; }
+    </style>
+        <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.17/3.17/esri/css/esri.css" />
+    <script type="text/javascript" src="http://localhost/arcgis_js_api/library/3.17/3.17/init.js"></script>
+    <script src="http://localhost/arcgis_js_api/library/3.17/3.17/"></script>
+     <script type="text/javascript">
+         require(["dojo/_base/declare", "dijit/_Widget", "dijit/_TemplatedMixin", "dojo/dom-construct"], function (declare, _Widget, _TemplatedMixin, domConstruct) {
+             declare("BusinessCard", [_Widget, _TemplatedMixin], {
+                 // 初始化参数
+                 name: "unknown",
+                 nameClass: "employeeName",
+                 phone: "unknown",
+
+                 templateString: "<div class='businessCard'>" + "<div>姓名: <span data-dojo-attach-point='nameNode'></span></div>" + "<div>电话 #: <span data-dojo-attach-point= 'phoneNode'></span></div>" + "</div>",
+                 //将属性映射到DOM节点
+                 attributeMap: {
+                     name: {
+                         node: "nameNode",
+                         type: "innerHTML"
+                     },
+                     nameClass: {
+                         node: "nameNode",
+                         type: "class"
+                     },
+                     phone: {
+                         node: "phoneNode",
+                         type: "innerHTML"
+                     }
+                 }
+             });
+         });
+
+         require(["dojo/parser", "dojo/domReady!"], function (parser) {
+             parser.parse();
+         });
+    </script>
+</head>
+<body class="tundra">
+    <span data-dojo-type="BusinessCard" data-dojo-props="name: '陈德选', phone: '(010) 63981212'">
+    </span>
+    <span data-dojo-type="BusinessCard" data-dojo-props="name: '刘泊芸', nameClass: 'specialEmployeeName', phone: '(010) 63967113'">
+    </span>
+</body>
+</html>
