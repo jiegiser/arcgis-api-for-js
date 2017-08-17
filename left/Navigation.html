@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>地图窗口操作</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <style type="text/css">
+        html, body, #main {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script type="text/javascript">
+        var map, navToolbar;
+        var navOption; // 当前选择的操作
+        require(["dojo/parser", "esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/toolbars/navigation",
+            "dojo/query", 'dojo/_base/fx', "dojo/fx/easing", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/domReady!"],
+            function (parser, Map, ArcGISTiledMapServiceLayer, Navigation, query, fx, easing) {
+                parser.parse();
+
+                map = new Map("mapDiv", {
+                    logo: false,
+                    sliderStyle: "large"
+                });
+                var agoServiceURL = "http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer";
+                var agoLayer = new ArcGISTiledMapServiceLayer(agoServiceURL);
+                map.addLayer(agoLayer);
+
+                map.on('load', setupNavBar);
+
+                function setupNavBar() {
+                    navToolbar = new Navigation(map);
+
+                    query(".navItem img").onmouseover(function (evt) {
+                        fx.anim(evt.target.parentNode, {
+                            backgroundColor: '#CCCCCC'
+                        }, 200, easing.bounceOut);
+                    }).onmouseout(function (evt) {
+                        if (evt.target.parentNode.id != navOption) {
+                            fx.anim(evt.target.parentNode, {
+                                backgroundColor: '#FFFFFF'
+                            });
+                        }
+                        else {
+                            fx.anim(evt.target.parentNode, {
+                                backgroundColor: '#DADADA'
+                            });
+                        }
+                    }).onclick(function (evt) {
+
+                        fx.anim(evt.target.parentNode, {
+                            backgroundColor: '#999999'
+                        }, 200, easing.linear, function () {
+                            dojo.anim(evt.target.parentNode, {
+                                backgroundColor: '#CCCCCC'
+                            }, 0);
+                        });
+                        navEvent(evt.target.parentNode.id);
+                    });
+
+                    // 将漫游设置为默认操作
+                    navEvent('deactivate');
+                }
+
+                function navEvent(id) {
+                    switch (id) {
+                        case 'pan':
+                            map.enablePan();
+                            navToolbar.activate(Navigation.PAN);
+
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'zoomprev':
+                            navToolbar.zoomToPrevExtent();
+                            break;
+                        case 'zoomnext':
+                            navToolbar.zoomToNextExtent();
+                            break;
+                        case 'extent':
+                            navToolbar.zoomToFullExtent();
+                            break;
+                        case 'zoomin':
+                            navToolbar.activate(Navigation.ZOOM_IN);
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'zoomout':
+                            navToolbar.activate(Navigation.ZOOM_OUT);
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                        case 'deactivate':
+                            navToolbar.deactivate();
+                            if (navOption) {
+                                fx.anim(document.getElementById(navOption), {
+                                    backgroundColor: '#FFFFFF'
+                                });
+                            }
+                            navOption = id;
+                            break;
+                    }
+                }
+            });
+    </script>
+</head>
+<body class="tundra">
+    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'"  id="main">
+        <div id="navDiv1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left', splitter:'false'" style="width: 44px; overflow: hidden; padding: 0px; border: 0px; ">
+            <div id="zoomin" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/zoomin.gif" title="Zoom In: Drag a zoom rectangle on-map to zoom in" />
+            </div>
+            <div id="zoomout" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/zoomout.gif" title="Zoom Out: Drag a zoom rectangle on-map to zoom out and center" />
+            </div>
+            <div id="extent" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/web.gif" title="Full Extent: Zoom out to Full Extent" />
+            </div>
+            <div id="zoomprev" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/left.gif" title="前一视图" />
+            </div>
+            <div id="zoomnext" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/right.gif" title="后一视图" />
+            </div>
+            <div id="pan" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" title="漫游" src="images/hand.gif" />
+            </div>
+            <div id="deactivate" data-dojo-type="dijit/layout/ContentPane" class="navItem" data-dojo-props="splitter:'false'" style="height: 30px; border: 1px solid #DADADA; padding: 5px; margin-bottom: 3px; background-color:#DADADA; vertical-align : middle; overflow: hidden;">
+                <img class="navItem" src="images/minus.gif" title="返回标准控制" />
+            </div>
+        </div>
+        <div id="mapDiv" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" 
+            style="background-color: #f5ffbf; padding: 10px;">            
+        </div>
+    </div>
+</body>
+</html>
