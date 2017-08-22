@@ -1,0 +1,51 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0; 
+    padding: 0;
+}
+
+body {
+	background-color:#777;
+	overflow:hidden;	
+	font-family: "Trebuchet MS";
+	font-size:9pt;
+}
+
+.dijitAccordionTitle {
+    background-color:#777;
+	overflow:hidden;	
+	font-family: "Trebuchet MS";
+	font-size:12pt;
+}
+
+#header {
+	background-color:#444;
+	color:white;
+	font-size:20pt;
+	text-align:center;
+	font-weight:bold;		
+}
+
+#attributionText {
+	background-color:whitesmoke;
+	color:black;
+	font-size:7pt;
+	text-align:left;
+	margin:5px;		
+}
+
+#divNeighborhoodName {
+	background-color:white;
+	color:black;
+	font-size:16pt;
+	text-align:center;
+	font-weight:bold;		
+}
+
+#footer {
+	background-color:#444;
+	color:yellow;
+	font-size:10pt;
+	text-align:center;
+}

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>属性查询图形</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link rel="stylesheet" href="Layout.css" />
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script src="Find.js"></script>
+</head>
+<body class="claro">
+    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false" style="width:100%; height:100%;">
+      <!--标题区域-->
+      <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" style="height:50px;">
+          属性查询图形
+      </div>
+      
+      <!--中间地图区域-->
+      <div id="mapDiv" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="margin:5px;">
+      </div>
+
+      <!--右边为属性查询与结果显示区域-->
+      <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right'" style="width:35%;margin:5px;background-color:whitesmoke;">     
+          输入查询文本
+          <input id="searchText" value="KS" type="text" />
+          <input id="findBtn" type="button" value="查 找" />
+          <div id="contentsContainer"></div>
+      </div>        
+    </div>
+</body>
+</html>
