@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>缓冲区分析</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/resources/Grid.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/resources/claroGrid.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link rel="stylesheet" href="Main.css" />
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script src="BufferAnalysis.js"></script>
+</head>
+<body class="claro">
+    <div id="buttonbox">
+        <button data-dojo-type="dijit/form/Button">点</button>
+        <button data-dojo-type="dijit/form/Button">线</button>
+        <button data-dojo-type="dijit/form/Button">多边形</button>
+    </div>
+    
+    <div id="box">
+        缓冲距离（千米）：&nbsp;<input type="text" id="bufferDistance" value="1" size="5"/>
+        <div>缓冲区内的街区数为：<span id="numberOfBlocks">0</span></div>
+        <div>缓冲区内的人口数为：<span id="totalPopulation">0</span></div>
+    </div>    
+
+    <div id="mapbox">
+        <div id="map" style="width:700px; height:532px; border:2px solid #000;"></div>
+    </div>
+    
+    <div id="grid" data-dojo-type="dojox/grid/DataGrid" data-dojo-id="gridWidget"></div>
+</body>
+</html>
