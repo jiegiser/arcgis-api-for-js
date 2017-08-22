@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>独立值专题图</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+        require(["esri/map", "esri/layers/FeatureLayer", "esri/layers/ArcGISTiledMapServiceLayer",
+          "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol",
+          "esri/renderers/UniqueValueRenderer", "esri/InfoTemplate", "esri/Color", "dojo/domReady!"
+        ], function (
+          Map, FeatureLayer, ArcGISTiledMapServiceLayer,
+          SimpleLineSymbol, SimpleFillSymbol,
+          UniqueValueRenderer, InfoTemplate, Color
+        ) {
+            var map = new Map("map", {
+                center: [-95.625, 39.243],
+                zoom: 4,
+                slider: false
+            });
+            var agoServiceURL = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer";
+            var agoLayer = new ArcGISTiledMapServiceLayer(agoServiceURL);
+            map.addLayer(agoLayer);
+
+            map.on("load", addFeatureLayer);
+
+            function addFeatureLayer() {
+                var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL);
+                defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL);
+
+                // 创建渲染器
+                var renderer = new UniqueValueRenderer(defaultSymbol, "SUB_REGION");
+
+                // 为每个可能的值增加一个符号
+                renderer.addValue("Pacific", new SimpleFillSymbol().setColor(new Color([255, 0, 0, 0.5])));
+                renderer.addValue("Mtn", new SimpleFillSymbol().setColor(new Color([0, 255, 0, 0.5])));
+                renderer.addValue("N Eng", new SimpleFillSymbol().setColor(new Color([0, 0, 255, 0.5])));
+                renderer.addValue("S Atl", new SimpleFillSymbol().setColor(new Color([255, 0, 255, 0.5])));
+                renderer.addValue("Mid Atl", new SimpleFillSymbol().setColor(new Color([255, 255, 255, 0.75])));
+                renderer.addValue("E N Cen", new SimpleFillSymbol().setColor(new Color([0, 255, 255, 0.5])));
+                renderer.addValue("W N Cen", new SimpleFillSymbol().setColor(new Color([255, 255, 0, 0.5])));
+                renderer.addValue("E S Cen", new SimpleFillSymbol().setColor(new Color([127, 127, 127, 0.5])));
+                renderer.addValue("W S Cen", new SimpleFillSymbol().setColor(new Color([0, 0, 0, 0.5])));
+
+                var featureLayer = new FeatureLayer("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/1", {
+                    infoTemplate: new InfoTemplate(" ", "${SUB_REGION}"),
+                    mode: FeatureLayer.MODE_ONDEMAND,
+                    outFields: ["SUB_REGION"]
+                });
+
+                featureLayer.setRenderer(renderer);
+                map.addLayer(featureLayer);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
+ 
