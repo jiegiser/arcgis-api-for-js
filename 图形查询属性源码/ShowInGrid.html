@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图形查询属性</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/resources/Grid.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/resources/claroGrid.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link rel="stylesheet" href="Main.css" />
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script type="text/javascript" src="ShowInGrid.js"></script>
+</head>
+<body class="claro">
+    <div id="buttonbox">
+        <button data-dojo-type="dijit/form/Button">多边形</button>
+        <button data-dojo-type="dijit/form/Button">徒手多边形</button>
+        <button data-dojo-type="dijit/form/Button">删除选择结果</button>
+    </div>
+    
+    <div id="box">
+        <div>多边形内的街区数为：<span id="numberOfBlocks">0</span></div>
+        <div>多边形内的人口数为：<span id="totalPopulation">0</span></div>
+    </div>    
+
+    <div id="mapbox">
+        <div id="map" style="width:700px; height:512px; border:2px solid #000;" class="tundra"></div>
+    </div>
+    
+    <div id="grid" data-dojo-type="dojox/grid/DataGrid" data-dojo-id="gridWidget"></div>
+
+    <div id="legend">
+        <b>人口：  </b>
+        <img src="images/CircleBlue16.png" /> 50
+        <img src="images/CircleBlue24.png" /> 100
+        <img src="images/CircleRed32.png" /> 大于100
+    </div>
+</body>
+</html>

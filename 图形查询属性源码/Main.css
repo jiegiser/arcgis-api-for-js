@@ -1,0 +1,54 @@
+﻿html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow:hidden; }
+body
+{ 
+    font-size: 0.9em;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+}   
+#grid
+{ /*This div positions the results table */
+    border: 1px solid #333;
+    width: 305px;
+    height: 443px;
+    background-color:Transparent;
+    position:absolute;
+    left: 5px;
+    top: 80px;       
+}
+#buttonbox
+{ /*This div positions the buttons */
+    position:absolute;
+    left: 5px;
+    top: 10px;
+}
+#box
+{ /*This div positions the results box */
+    border: 1px solid #333;
+    width: 305px;
+    position: absolute;
+    left: 5px;
+    top: 40px;
+} 
+#mapbox
+{ /*This div positions the map on the page */
+    position:absolute;
+    left:320px;
+    top:10px;
+}
+#info
+{
+    position:absolute;
+    left: 5px;
+    top:200px;
+}
+#legend
+{ /*Provides a simple legend for the population symbols */
+    border: 1px solid #333;
+    width: 305px;
+    position:absolute;
+    left: 5px;
+    top: 530px;
+    font-size: 0.9em;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+}       
+
+.details { font-weight: bold; } 
