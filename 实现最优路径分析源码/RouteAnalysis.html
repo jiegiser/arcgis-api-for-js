@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>最优路径分析</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script src="RouteAnalysis.js"></script>
+</head>
+<body class="claro">
+    <button onclick="addStops()">增加站点</button>
+    <button onclick="clearStops()">清除站点</button>
+    <button onclick="addBarriers()">增加路障</button>
+    <button onclick="clearBarriers()">清除路障</button>
+    <button onclick="solveRoute()">路径分析</button>
+    <button onclick="clearRoutes()">清除路径</button>
+
+    <br /><br />
+    <div id="map" style="width:600px; height:400px; border:1px solid #000;"></div>
+    <ul>
+        <li>单击“增加站点”按钮，然后在地图中点击，增加路径需要经过的站点。</li>
+        <li>单击“增加路障”按钮，然后在地图中点击，增加路障</li>
+        <li>单击“路径分析”按钮，进行路径分析</li>
+    </ul>
+</body>
+</html>
