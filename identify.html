@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
+    <!--The viewport meta tag is used to improve the presentation and behavior of the samples 
+      on iOS devices-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Identify with Popup</title>
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        height:100%;
+        width:100%;
+        margin:0;
+        padding:0;
+      }
+    </style>
+
+    <script>var dojoConfig = { parseOnLoad: true };</script>
+    <script src="http://js.arcgis.com/3.7/"></script>
+    <script>
+	  var map;
+      var identifyTask, identifyParams;	  
+      require([
+        "esri/map",  "esri/dijit/Popup", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/tasks/IdentifyTask", 
+		"esri/tasks/IdentifyResult", "esri/tasks/IdentifyParameters", "esri/dijit/InfoWindow", "esri/symbols/SimpleFillSymbol", 
+		"esri/symbols/SimpleLineSymbol", "esri/InfoTemplate", "dojo/_base/Color" ,"dojo/on",
+	    "dojo/domReady!"
+      ], function(Map, Popup, ArcGISDynamicMapServiceLayer, IdentifyTask, IdentifyResult, IdentifyParameters, InfoWindow, 
+	      SimpleFillSymbol, SimpleLineSymbol, InfoTemplate, Color, on) {
+		 //setup the popup window 
+        var popup = new Popup({
+          fillSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2), new Color([255,255,0,0.25]))
+        }, dojo.create("div"));
+   
+        map = new Map("mapDiv", {
+          basemap: "streets",
+          center: [-83.275, 42.573],
+          zoom: 18,
+          infoWindow: popup
+        });
+        
+        var landBaseLayer = new ArcGISDynamicMapServiceLayer("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/BloomfieldHillsMichigan/Parcels/MapServer",{opacity:.55});
+        map.addLayer(landBaseLayer);
+		
+		map.on("click", executeIdentifyTask);
+	    identifyTask = new IdentifyTask("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/BloomfieldHillsMichigan/Parcels/MapServer");
+       
+        identifyParams = new IdentifyParameters();
+        identifyParams.tolerance = 3;
+        identifyParams.returnGeometry = true;
+        identifyParams.layerIds = [0,2];
+        identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
+        identifyParams.width  = map.width;
+        identifyParams.height = map.height;
+	  });
+      
+     
+      function executeIdentifyTask(evt) {
+        identifyParams.geometry = evt.mapPoint;
+        identifyParams.mapExtent = map.extent;
+       
+        var deferred = identifyTask.execute(identifyParams);
+
+        deferred.addCallback(function(response) {     
+          // response is an array of identify result objects    
+          // Let's return an array of features.
+          return dojo.map(response, function(result) {
+            var feature = result.feature;
+            feature.attributes.layerName = result.layerName;
+            if(result.layerName === 'Tax Parcels'){
+              console.log(feature.attributes.PARCELID);
+              var template = new esri.InfoTemplate("", "${Postal Address} <br/> Owner of record: ${First Owner Name}");
+              feature.setInfoTemplate(template);
+            }
+            else if (result.layerName === 'Building Footprints'){
+              var template = new esri.InfoTemplate("", "Parcel ID: ${PARCELID}");
+              feature.setInfoTemplate(template);
+            }
+            return feature;
+          });
+        });
+
+      
+        // InfoWindow expects an array of features from each deferred
+        // object that you pass. If the response from the task execution 
+        // above is not an array of features, then you need to add a callback
+        // like the one above to post-process the response and return an
+        // array of features.
+        map.infoWindow.setFeatures([ deferred ]);
+        map.infoWindow.show(evt.mapPoint);
+      }
+      
+      
+    </script>
+  </head>
+  
+  <body>
+    <div id="mapDiv"></div>
+  </body>
+
+</html>
