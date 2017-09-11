@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>点密度专题</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+        }
+        #info {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font: 14px sans-serif;
+            background: #fff;
+            width: 160px;
+            text-align: center;
+            border-radius: 0 0 0 10px;
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+        var map;
+        require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/FeatureLayer",
+          "esri/InfoTemplate", "esri/renderers/DotDensityRenderer", "esri/symbols/SimpleLineSymbol", "esri/dijit/Legend",
+          "esri/Color", "dojo/domReady!"
+        ], function (Map, ArcGISTiledMapServiceLayer, FeatureLayer,
+          InfoTemplate, DotDensityRenderer, SimpleLineSymbol, Legend, Color
+        ) {
+            map = new Map("map");
+
+            var baseMapUrl = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer";
+            var baseMap = new ArcGISTiledMapServiceLayer(baseMapUrl);
+            map.addLayer(baseMap);
+
+            var layerUrl = "http://services.arcgis.com/BG6nSlhZSAWtExvp/ArcGIS/rest/services/Demographics_World_Simp/FeatureServer/0";
+            var layer = new FeatureLayer(layerUrl, {
+                infoTemplate: new InfoTemplate("${CNTRY_NAME}", "${*}"),
+                mode: FeatureLayer.MODE_ONDEMAND,
+                outFields: ["*"]
+            });
+
+            var renderer = new DotDensityRenderer({
+                backgroundColor: new Color("#FFFFFF"),
+                outline: new SimpleLineSymbol().setColor(new Color([0,0,255])),
+                fields: [{
+                    name: "POP2007",
+                    color: new Color("#FF0000")
+                }],
+                dotShape: "circle",
+                dotValue: 1000000,
+                dotSize: 1
+            });
+            layer.setRenderer(renderer);
+            map.addLayers([layer]);
+
+            map.on("layers-add-result", function (e) {
+                var corn = e.layers[0].layer;
+                var legend = new Legend({
+                    map: map,
+                    layerInfos: [{
+                        layer: corn,
+                        title: "人口分布（2007年）"
+                    }]
+                }, "legend");
+                legend.startup();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="info">
+      <div id="legend"></div>
+    </div>
+</body>
+</html>  
